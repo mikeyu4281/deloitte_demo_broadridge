@@ -79,6 +79,8 @@ if __name__ == "__main__":
             print("Sending a New Order Single...")
             
             # Create a FIX 4.4 NewOrderSingle message
+
+            #mock order details and uses a basic order object provided by fix44 api
             order = fix44.NewOrderSingle()
             order.setField(fix.ClOrdID("AAPL_Order"))
             order.setField(fix.Symbol("AAPL"))
@@ -92,6 +94,7 @@ if __name__ == "__main__":
             order.getHeader().setField(fix.BeginString("FIX.4.4"))
             order.getHeader().setField(fix.MsgType(fix.MsgType_OrderSingle))
             tbricks_order = tbricks_order.Order
+            # order details would populate the tbricks_order object and be sent to exchange
             # Send the message
             fix.Session.sendToTarget(tbricks_order, application.sessionID)
             print("Order sent.")
@@ -110,4 +113,5 @@ if __name__ == "__main__":
     finally:
         if 'initiator' in locals():
             initiator.stop()
+
             print("Initiator stopped.")
